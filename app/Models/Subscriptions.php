@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rating extends Model
+class subscriptions extends Model
 {
     use HasFactory;
-
     public $timestamps = false;
-
     protected $fillable = [
-        'id_car',
+        'id_user',
+        'tipe',
+        'harga',
         'deskripsi',
-        'bintang'
     ];
 
-    public function Car()
+    public function User()
     {
-        return $this->belongsTo(Car::class,'id_car');
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

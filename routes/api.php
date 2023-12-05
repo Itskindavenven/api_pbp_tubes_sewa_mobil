@@ -34,3 +34,15 @@ Route::post('/car', [App\Http\Controllers\CarController::class, 'store']);
 Route::delete('/car/{id}', [App\Http\Controllers\CarController::class, 'destroy']);
 Route::get('/car/{id}', [App\Http\Controllers\CarController::class, 'show']);
 Route::put('/car/update/{id}', [App\Http\Controllers\CarController::class, 'update']);
+
+Route::get('/rating', [App\Http\Controllers\RatingController::class, 'index']);
+Route::post('/rating', [App\Http\Controllers\RatingController::class, 'store']);
+Route::get('/rating/{id}', [App\Http\Controllers\RatingController::class, 'show']);
+Route::put('/rating/update/{id}', [App\Http\Controllers\RatingController::class, 'update']);
+Route::delete('/rating/{id}', [App\Http\Controllers\RatingController::class, 'destroy']);
+
+Route::get('/subscriptions', [App\Http\Controllers\SubcriptionsController::class, 'index']);
+Route::post('/subscriptions', [App\Http\Controllers\SubcriptionsController::class, 'store']);
+Route::get('/subscriptions/{id}', [App\Http\Controllers\SubcriptionsController::class, 'show']);
+Route::put('/subscriptions/update/{id}', [App\Http\Controllers\SubcriptionsController::class, 'update']);
+Route::delete('/subscriptions/{id}', [App\Http\Controllers\SubcriptionsController::class, 'destroy']);
