@@ -26,25 +26,39 @@ class UserController extends Controller
     }
 
     public function register(Request $request)
-    {
-        try{
-            $user = User::create($request->all());
-            return response()->json([
-                'status'=> true,
-                'message'=> 'Berhasil register',
-                'data'=> $user
-            ], 200);
-        }catch(\Exception $e){
-            return response()->json([
-                'status'=> false,
-                'message'=> $e->getMessage(),
-                'data'=> []
-            ], 400);
-        }
+{
+    $request->validate([
+        'username' => 'required',
+        'email' => 'required|email',
+        'password' => 'required',
+        'noTelp' => 'required',
+        'tglLahir' => 'required',
+        'image' => 'required'
+    ]);
+
+    try{
+        $user = User::create($request->all());
+        return response()->json([
+            'status'=> true,
+            'message'=> 'Berhasil register',
+            'data'=> $user
+        ], 200);
+    }catch(\Exception $e){
+        return response()->json([
+            'status'=> false,
+            'message'=> $e->getMessage(),
+            'data'=> []
+        ], 400);
     }
+}
 
     public function login(Request $request)
     {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
         try{
             $loginData = $request->all();
             $user = User::where('username', $loginData['username'])->where('password', $loginData['password'])->first();
@@ -71,6 +85,7 @@ class UserController extends Controller
         }
         
     }
+
 
     public function validasi(Request $request)
     {

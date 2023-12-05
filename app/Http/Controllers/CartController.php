@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,10 +12,20 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id_user)
     {
         try {
-            $carts = Cart::all();
+            $user = User::find($id_user);
+
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User not found',
+                    'data' => null
+                ], 404);
+            }
+
+            $carts = Cart::with('user', 'car')->where('id_user', $id_user)->get();
 
             if ($carts->isNotEmpty()) {
                 return response()->json([
@@ -27,7 +38,7 @@ class CartController extends Controller
                     'status' => false,
                     'message' => 'Keranjang masih kosong',
                     'data' => null
-                ], 404);
+                ], 500);
             }
         } catch (\Exception $e) {
             return response()->json([
@@ -38,11 +49,25 @@ class CartController extends Controller
         }
     }
 
+
+
+
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'id_user' => 'required|exists:users,id',
+            'id_car' => 'required|exists:cars,id_car',
+            'carName' => 'required',
+            'day' => 'required',
+            'price' => 'required',
+            'pickup_date' => 'required|date',
+            'return_date' => 'required|date',
+        ]);
+
         try{
             $cart = Cart::create($request->all());
             return response()->json([
@@ -59,13 +84,15 @@ class CartController extends Controller
         }
     }
 
+
+
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
         try{
-            $cart = Cart::find($id);
+            $cart = Cart::with('user', 'car')->find($id);
 
             if($cart){
                 return response()->json([
@@ -89,6 +116,7 @@ class CartController extends Controller
         }
     }
 
+
     /**
      * Update the specified resource in storage.
      */
@@ -96,7 +124,7 @@ class CartController extends Controller
     {
         try {
             $cart = Cart::find($id);
-    
+
             if (!$cart) {
                 return response()->json([
                     'status' => false,
@@ -104,16 +132,17 @@ class CartController extends Controller
                     'data' => null
                 ], 404);
             }
-    
+
             $validator = Validator::make($request->all(), [
+                'id_user' => 'required|exists:users,id',
+                'id_car' => 'required|exists:cars,id_car',
                 'carName' => 'required|string',
                 'day' => 'required|integer',
                 'price' => 'required|integer',
                 'pickup_date' => 'required|date',
                 'return_date' => 'required|date',
-                'image_car' => '', 
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
@@ -121,9 +150,9 @@ class CartController extends Controller
                     'errors' => $validator->errors()
                 ], 400);
             }
-    
+
             $cart->update($request->all());
-    
+
             return response()->json([
                 'status' => true,
                 'message' => 'Data berhasil diperbarui',
@@ -137,6 +166,7 @@ class CartController extends Controller
             ], 400);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
