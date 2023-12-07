@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\RatingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,3 +46,9 @@ Route::post('/subscriptions', [App\Http\Controllers\SubcriptionsController::clas
 Route::get('/subscriptions/{id}', [App\Http\Controllers\SubcriptionsController::class, 'show']);
 Route::put('/subscriptions/update/{id}', [App\Http\Controllers\SubcriptionsController::class, 'update']);
 Route::delete('/subscriptions/{id}', [App\Http\Controllers\SubcriptionsController::class, 'destroy']);
+
+Route::get('/ratings', [RatingController::class, 'index']);
+Route::post('/ratings', [RatingController::class, 'store']);
+Route::get('/users/{id_user}/ratings/{id}', [RatingController::class, 'show']);
+Route::put('/ratings/{id}', [RatingController::class, 'update']);
+Route::delete('/ratings/{id}', [RatingController::class, 'destroy']);

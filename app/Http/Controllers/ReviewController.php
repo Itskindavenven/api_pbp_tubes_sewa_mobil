@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Rating;
+use App\Models\Review;
 use App\Models\Car;
 use App\Models\User;
 
-class RatingController extends Controller
+class ReviewController extends Controller
 {
     public function index()
     {
-        $ratings = Rating::all();
-        if ($ratings->isEmpty()) {
+        $review = Review::all();
+        if ($review->isEmpty()) {
             return response()->json(['error' => 'No ratings found'], 404);
         }
-        return response()->json($ratings);
+        return response()->json($review);
     }
 
     public function store(Request $request)
@@ -31,8 +31,8 @@ class RatingController extends Controller
             return response()->json(['error' => 'Car not found'], 404);
         }
 
-        $rating = Rating::create($request->all());
-        return response()->json($rating, 201);
+        $review = Review::create($request->all());
+        return response()->json($review, 201);
     }
 
 
@@ -48,21 +48,21 @@ class RatingController extends Controller
             ], 404);
         }
 
-        $rating = Rating::find($id);
+        $review = Review::find($id);
 
-        if ($rating->isEmpty()) {
-            return response()->json(['error' => 'Rating Not Found'], 404);
+        if ($review->isEmpty()) {
+            return response()->json(['error' => 'Review Not Found'], 404);
         }
         return response()->json([
                     'status'=> true,
                     'message'=> 'Berhasil ambil data',
-                    'data'=> $rating
+                    'data'=> $review
                 ], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $rating = Rating::find($id);
+        $review = Review::find($id);
 
         $request->validate([
             'id_user' => 'required',
@@ -70,20 +70,20 @@ class RatingController extends Controller
             'deskripsi' => 'required'
         ]);
 
-        $rating->update($request->all());
+        $review->update($request->all());
          return response()->json([
                 'status' => true,
                 'message' => 'Data berhasil diperbarui',
-                'data' => $rating
+                'data' => $review
             ], 200);
     }
 
     public function destroy($id)
     {
         try {
-            $rating = Rating::find($id);
+            $review = Review::find($id);
     
-            if (!$rating) {
+            if (!$review) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Data not found',
@@ -91,7 +91,7 @@ class RatingController extends Controller
                 ], 404);
             }
     
-            $rating->delete();
+            $review->delete();
     
             return response()->json([
                 'status' => true,
