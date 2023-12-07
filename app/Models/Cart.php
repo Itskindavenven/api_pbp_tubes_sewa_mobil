@@ -17,6 +17,7 @@ class cart extends Model
         'price',
         'pickup_date',
         'return_date',
+        'location'
     ];
 
     public function User()

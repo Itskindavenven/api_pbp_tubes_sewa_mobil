@@ -9,6 +9,8 @@ class Car extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $table = 'cars';
 
     protected $primaryKey = 'id_car';

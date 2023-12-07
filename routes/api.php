@@ -26,7 +26,7 @@ Route::put('/user/updateImage/{id}', [App\Http\Controllers\UserController::class
 Route::get('/cart/{id_user}', [App\Http\Controllers\CartController::class, 'index']);
 Route::post('/cart', [App\Http\Controllers\CartController::class, 'store']);
 Route::delete('/cart/{id}', [App\Http\Controllers\CartController::class, 'destroy']);
-Route::get('/cart/{id}', [App\Http\Controllers\CartController::class, 'show']);
+Route::get('/cart/{id_user}/{id}', [App\Http\Controllers\CartController::class, 'show']);
 Route::put('/cart/update/{id}', [App\Http\Controllers\CartController::class, 'update']);
 
 Route::get('/car', [App\Http\Controllers\CarController::class, 'index']);
